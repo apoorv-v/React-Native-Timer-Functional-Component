@@ -2,14 +2,14 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 // import CountDown from 'react-native-countdown-component';
-import CountDown from './cd';
+import CountDownSET from './cd';
 export default function App() {
   const [runing, setRun] = useState(false)
   
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 50 }} onPress={()=>setRun(true)}>BUTT.</Text>
-      <CountDown
+      <CountDownSET
           until={120}
           digitTxtStyle = {{color: "#FF6724", }}
           // showSeparator={true}
