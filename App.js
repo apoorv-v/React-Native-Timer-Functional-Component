@@ -1,40 +1,26 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
+// import CountDown from 'react-native-countdown-component';
+import CountDown from './cd';
 export default function App() {
-  const [counter, setcounter] = useState(10);
-  const [isActive, setActive] = useState(true);
-
-  var timer = null;
-
-  useEffect(() => {
-    if (isActive) {
-      timer = setTimeout(() => {
-        setcounter(counter - 1);
-      }, 1000);
-    }
-  }, []);
-  useEffect(() => {
-    if (isActive && counter >= 0) {
-      timer = setTimeout(() => {
-        if (counter != 10) {
-          if (counter <= 0) {
-            setcounter(0);
-            setActive(false);
-          } else {
-            setcounter(counter - 1);
-          }
-        }
-      }, 1000);
-    } else {
-      return () => clearTimeout(timer);
-    }
-  }, [counter]);
-
+  const [runing, setRun] = useState(false)
+  
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 50 }}>{counter == 0 ? "reset" : counter}</Text>
+      <Text style={{ fontSize: 50 }} onPress={()=>setRun(true)}>BUTT.</Text>
+      <CountDown
+          until={120}
+          digitTxtStyle = {{color: "#FF6724", }}
+          // showSeparator={true}
+          digitStyle = {{backgroundColor : "rgba(0, 0, 0, 0)"}}
+          timeToShow={['H','M', 'S']}
+          running = {runing}
+          size={25}
+
+        />
+        
+        
       <StatusBar style="auto" />
     </View>
   );
@@ -43,7 +29,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#6B6B6F",
     alignItems: "center",
     justifyContent: "center",
   },
