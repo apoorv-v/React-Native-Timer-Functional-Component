@@ -1,41 +1,32 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import * as React from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+import { Audio } from 'expo-av';
 
 export default function App() {
-  const [counter, setcounter] = useState(10);
-  const [isActive, setActive] = useState(true);
+  const [sound, setSound] = React.useState();
+  const PATH = './assets/turn.wav';
 
-  var timer = null;
+  async function playSound() {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(
+       require('./assets/turn3.mp3')
+    );
+    setSound(sound);
 
-  useEffect(() => {
-    if (isActive) {
-      timer = setTimeout(() => {
-        setcounter(counter - 1);
-      }, 1000);
-    }
-  }, []);
-  useEffect(() => {
-    if (isActive && counter >= 0) {
-      timer = setTimeout(() => {
-        if (counter != 10) {
-          if (counter <= 0) {
-            setcounter(0);
-            setActive(false);
-          } else {
-            setcounter(counter - 1);
-          }
-        }
-      }, 1000);
-    } else {
-      return () => clearTimeout(timer);
-    }
-  }, [counter]);
+    console.log('Playing Sound');
+    await sound.playAsync(); }
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync(); }
+      : undefined;
+  }, [sound]);
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 50 }}>{counter == 0 ? "reset" : counter}</Text>
-      <StatusBar style="auto" />
+      <Button title="Play Sound" onPress={playSound} />
     </View>
   );
 }
@@ -43,8 +34,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+    padding: 10,
   },
 });
